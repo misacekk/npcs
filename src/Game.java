@@ -65,9 +65,19 @@ public class Game {
                 System.out.println("3 - Náhodné");
                 int vyberChovani = sc.nextInt();
 
-                if (vyberChovani == 1) npcs.get(npcVyber).setChovani(new AggressiveBehavior());
-                else if (vyberChovani == 2) npcs.get(npcVyber).setChovani(new PassiveBehavior());
-                else if (vyberChovani == 3) npcs.get(npcVyber).setChovani(new RandomBehavior());
+                if (vyberChovani == 1) {
+                    NPC npc = npcs.get(npcVyber);
+                    AggressiveBehavior aggressive = new AggressiveBehavior();
+                    npc.setChovani(aggressive);
+                } else if (vyberChovani == 2) {
+                    NPC npc = npcs.get(npcVyber);
+                    PassiveBehavior passive = new PassiveBehavior();
+                    npc.setChovani(passive);
+                } else if (vyberChovani == 3) {
+                    NPC npc = npcs.get(npcVyber);
+                    RandomBehavior random = new RandomBehavior();
+                    npc.setChovani(random);
+                }
             }
 
         } while (choice != 4 && npcs.size() > 1);
