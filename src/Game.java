@@ -9,61 +9,68 @@ public class Game {
         RandomBehavior r = new RandomBehavior();
         AggressiveBehavior ag = new AggressiveBehavior();
         PassiveBehavior p = new PassiveBehavior();
-        NPC npc1 = new NPC("franta",50,50,r);
-        NPC npc2 = new NPC("Stepan",60,50,ag);
-        NPC npc3 = new NPC("Honza",40,50,p);
-        npcs.add(npc1);
-        npcs.add(npc2);
-        npcs.add(npc3);
+
+        npcs.add(new NPC("Steven", 50, 50, r));
+        npcs.add(new NPC("Musil", 50, 50, ag));
+        npcs.add(new NPC("Eis", 50, 50, p));
 
         int choice;
 
         do {
-            System.out.println("1 - další kolo");
-
+            System.out.println("\n1 - další kolo");
             System.out.println("2 - vypiš NPC");
-
-            // ⭐ BONUS 6:odkomentuj
-            //System.out.println("3 - změň chování NPC");
-
+            System.out.println("3 - změň chování NPC");
             System.out.println("4 - konec");
-
-            System.out.println("volba:");
+            System.out.print("volba: ");
             choice = sc.nextInt();
             sc.nextLine();
 
             if (choice == 1) {
+                if (npcs.size() <= 1) {
+                    System.out.println("Není s kým bojovat.");
+                    continue;
+                }
 
-                for(int i=0;i<npcs.size();i++){
+                for (int i = 0; i < npcs.size(); i++) {
                     npcs.get(i).performAction(npcs);
                 }
 
-                for(int i=0;i<npcs.size();i++){
-                    if (npcs.get(i).getHP() < 1){
+                for (int i = npcs.size() - 1; i >= 0; i--) {
+                    if (!npcs.get(i).isAlive()) {
+                        System.out.println("NPC " + npcs.get(i).getName() + " zemřel.");
                         npcs.remove(i);
                     }
                 }
 
-
-                // ⭐ BONUS 7:
-                // pokud zbyde 1 NPC → vypiš vítěze
-            }
-
-            // ⭐ BONUS 5:
-            if (choice == 2) {
-                for(int i=0;i<npcs.size();i++){
-                    npcs.get(i).printInfo();
-
+                if (npcs.size() == 1) {
+                    System.out.println("--- " + npcs.get(0).getName() + " je vítěz! ---");
                 }
             }
 
-            // ⭐ BONUS 6:
-            if (choice == 3) {
-                // TODO vyber NPC (index)
-                // TODO změň behavior
+            if (choice == 2) {
+                for (NPC n : npcs) {
+                    n.printInfo();
+                }
             }
 
-        } while (choice != 4);
+            if (choice == 3) {
+                System.out.println("Seznam NPC");
+                for (int i = 0; i < npcs.size(); i++) {
+                    System.out.println(i + ". " + npcs.get(i).getName());
+                }
+                System.out.print("Vyber si NPC: ");
+                int npcVyber = sc.nextInt();
+                System.out.println("1 - Agresivní");
+                System.out.println("2 - Pasivní");
+                System.out.println("3 - Náhodné");
+                int vyberChovani = sc.nextInt();
+
+                if (vyberChovani == 1) npcs.get(npcVyber).setChovani(new AggressiveBehavior());
+                else if (vyberChovani == 2) npcs.get(npcVyber).setChovani(new PassiveBehavior());
+                else if (vyberChovani == 3) npcs.get(npcVyber).setChovani(new RandomBehavior());
+            }
+
+        } while (choice != 4 && npcs.size() > 1);
         System.out.println("Hra skončila.");
     }
 }
