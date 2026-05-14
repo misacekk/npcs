@@ -10,6 +10,7 @@ public class Game {
         AggressiveBehavior ag = new AggressiveBehavior();
         PassiveBehavior p = new PassiveBehavior();
 
+        
         npcs.add(new NPC("Steven", 50, 50, r));
         npcs.add(new NPC("Musil", 50, 50, ag));
         npcs.add(new NPC("Eis", 50, 50, p));
